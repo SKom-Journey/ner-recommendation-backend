@@ -1,6 +1,34 @@
 from utils.mongodb import db
+from models.Menu import Menu
 
-db_name = 'menus'
+tb_name = 'menus'
 
 def menus():
-    return db.get_collection(db_name).find()
+    result = []
+    for menu in db.get_collection(tb_name).find():
+        result.append(
+            Menu(
+                id=str(menu['_id']),
+                title=menu['title'],
+                description=menu['description'],
+                price=menu['price'],
+                img=menu['img']
+            )
+            .model_dump()
+        )
+    return result
+
+def find_by_entities(entities: dict):
+    result = []
+    for menu in db.get_collection(tb_name).find(entities):
+        result.append(
+            Menu(
+                id=str(menu['_id']),
+                title=menu['title'],
+                description=menu['description'],
+                price=menu['price'],
+                img=menu['img']
+            )
+            .model_dump()
+        )
+    return result

@@ -1,9 +1,14 @@
 import spacy
 
-def get_recommendation(text: str):
+def get_entities(text: str):
     nlp_ner = spacy.load("lib/restaurant_ner_recommendation")
     doc = nlp_ner(text)
 
+    entities = {}
+
     for ent in doc.ents:
-        print(ent.text, ent.label_)
-    return
+        if ent.label_ not in entities:
+            entities[ent.label_] = []
+        entities[ent.label_].append(ent.text)
+
+    return entities
