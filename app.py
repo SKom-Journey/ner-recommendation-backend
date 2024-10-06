@@ -1,5 +1,8 @@
 from flask import Flask
-from controllers.get_menu import get_menu_controller
+from controllers.get_menus_controller import get_menu_controller
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
 
 app = Flask(__name__)
 
