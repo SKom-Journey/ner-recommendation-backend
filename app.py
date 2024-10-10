@@ -9,12 +9,22 @@ from controllers.get_qr_controller import get_qr_controller
 from controllers.get_qrs_controller import get_qrs_controller
 from controllers.create_qr_controller import create_qr_controller
 from controllers.delete_qr_controller import delete_qr_controller
+from controllers.create_order_controller import create_order_controller
+from controllers.get_orders_controller import get_orders_controller
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins=['http://localhost:5173'])
+
+@app.get('/orders')
+def get_orders():
+    return get_orders_controller()
+
+@app.post('/orders')
+def create_order():
+    return create_order_controller(request.get_json())
 
 @app.get('/qrs/<qr_id>')
 def get_qr(qr_id: str):
@@ -34,7 +44,7 @@ def delete_qr(qr_id: str):
 
 @app.get('/menus')
 def get_menu():
-    return get_menus_controller()
+    return get_menus_controller(request.args.get('keyword', type=str))
 
 @socketio.on('menu_recommendation')
 def menu_recommendation(text):
