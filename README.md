@@ -1,4 +1,6 @@
 # ner-recommendation-backend
 
-- pip install Flask 'pymongo[srv]' python-dotenv flask-socketio flask-cors
-- python app.py
+## How to run
+
+- python3 -m pip install -r requirements.txt
+- python3 app.py

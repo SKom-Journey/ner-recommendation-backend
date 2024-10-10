@@ -1,0 +1,1 @@
+Flask 'pymongo[srv]' python-dotenv flask-socketio flask-cors

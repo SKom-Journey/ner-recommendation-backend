@@ -1,16 +1,36 @@
-from flask import Flask
+from flask import Flask, request
 from controllers.get_menu_recommendation_controller import get_menu_recommendation_controller
 from controllers.get_menus_controller import get_menus_controller
 from dotenv import load_dotenv
 from flask import Flask
 from flask_socketio import SocketIO, emit
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
+from controllers.get_qr_controller import get_qr_controller
+from controllers.get_qrs_controller import get_qrs_controller
+from controllers.create_qr_controller import create_qr_controller
+from controllers.delete_qr_controller import delete_qr_controller
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins=['http://localhost:5173'])
+
+@app.get('/qrs/<qr_id>')
+def get_qr(qr_id: str):
+    return get_qr_controller(qr_id)
+
+@app.get('/qrs')
+def get_qrs():
+    return get_qrs_controller()
+
+@app.post('/qrs')
+def create_qr():
+    return create_qr_controller(request.get_json())
+
+@app.delete('/qrs/<qr_id>')
+def delete_qr(qr_id: str):
+    return delete_qr_controller(qr_id)
 
 @app.get('/menus')
 def get_menu():
