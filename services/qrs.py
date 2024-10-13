@@ -17,8 +17,8 @@ def create_qr(table_number: str, is_enabled: bool):
         table_number=qr['table_number'],
     ).model_dump() 
  
-def qr(id: str):
-    qr = db.get_collection(tb_name).find_one({"_id": ObjectId(id)})
+def qr(table_number: str):
+    qr = db.get_collection(tb_name).find_one({"table_number": table_number})
     return QR(
         id=str(qr['_id']),
         is_enabled=qr['is_enabled'],

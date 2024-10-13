@@ -26,9 +26,9 @@ def get_orders():
 def create_order():
     return create_order_controller(request.get_json())
 
-@app.get('/qrs/<qr_id>')
-def get_qr(qr_id: str):
-    return get_qr_controller(qr_id)
+@app.get('/qrs/<table_number>')
+def get_qr(table_number: str):
+    return get_qr_controller(table_number)
 
 @app.get('/qrs')
 def get_qrs():
@@ -48,7 +48,6 @@ def get_menu():
 
 @socketio.on('menu_recommendation')
 def menu_recommendation(text):
-    print(text)
     recommendation = get_menu_recommendation_controller(text)
     emit('menu_recommendation_response', recommendation)
 
