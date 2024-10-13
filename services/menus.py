@@ -37,7 +37,7 @@ def menus(keyword: str):
 
 def find_by_entities(entities: dict):
     result = []
-    for menu in db.get_collection(tb_name).find(entities):
+    for menu in db.get_collection(tb_name).find(entities).limit(5):
         result.append(
             Menu(
                 id=str(menu['_id']),
