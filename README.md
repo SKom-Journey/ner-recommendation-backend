@@ -2,5 +2,12 @@
 
 ## How to run
 
-- python3 -m pip install -r requirements.txt
+### Windows
+- pip install -r requirements.txt
+- python3 app.py
+
+### Mac
+- python3 -m venv env
+- source env/bin/activate
+- pip3 install -r requirements.txt
 - python3 app.py
