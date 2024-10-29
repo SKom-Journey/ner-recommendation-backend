@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
+from controllers.get_user_chats_controller import get_user_chats_controller
 from controllers.get_qr_controller import get_qr_controller
 from controllers.get_qrs_controller import get_qrs_controller
 from controllers.create_qr_controller import create_qr_controller
@@ -25,6 +26,10 @@ def get_orders():
 @app.post('/orders')
 def create_order():
     return create_order_controller(request.get_json())
+
+@app.get('/chats/<user_id>')
+def get_user_chats(user_id: str):
+    return get_user_chats_controller(user_id)
 
 @app.get('/qrs/<table_number>')
 def get_qr(table_number: str):
@@ -47,8 +52,8 @@ def get_menu():
     return get_menus_controller(request.args.get('keyword', type=str))
 
 @socketio.on('menu_recommendation')
-def menu_recommendation(text):
-    recommendation = get_menu_recommendation_controller(text)
+def menu_recommendation(text, user_id):
+    recommendation = get_menu_recommendation_controller(text, user_id)
     emit('menu_recommendation_response', recommendation)
 
 if __name__ == '__main__':

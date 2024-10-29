@@ -11,8 +11,6 @@ def create_order(items, table_number: int):
 
     for item in items:
         get_menu = menu(item['id'])
-        print({**item})
-        print(menu)
         if get_menu:
             menu_items.append({
                 **item,

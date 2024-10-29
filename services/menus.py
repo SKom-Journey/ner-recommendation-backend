@@ -22,6 +22,7 @@ def menus(keyword: str):
             }
         ]
     })
+
     for menu in data:
         result.append(
             Menu(
@@ -59,3 +60,18 @@ def menu(id: str):
         price=data['price'],
         img=data['img']
     ).model_dump()
+
+def menus_by_ids(ids: list[ObjectId]):
+    result = []
+    for menu in db.get_collection(tb_name).find({"_id": {"$in": ids}}):
+        result.append(
+            Menu(
+                id=str(menu['_id']),
+                title=menu['title'],
+                description=menu['description'],
+                price=menu['price'],
+                img=menu['img']
+            )
+            .model_dump()
+        )
+    return result
