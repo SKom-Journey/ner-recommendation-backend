@@ -12,12 +12,22 @@ from controllers.create_qr_controller import create_qr_controller
 from controllers.delete_qr_controller import delete_qr_controller
 from controllers.create_order_controller import create_order_controller
 from controllers.get_orders_controller import get_orders_controller
+from controllers.create_user_controller import create_user_controller
+from controllers.login_user_controller import login_user_controller
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins=['http://localhost:5173'])
+
+@app.post('/auths/users/login')
+def login_user():
+    return login_user_controller(request.get_json())
+
+@app.post('/users')
+def create_user():
+    return create_user_controller(request.get_json())
 
 @app.get('/orders')
 def get_orders():
