@@ -12,22 +12,26 @@ from controllers.create_qr_controller import create_qr_controller
 from controllers.delete_qr_controller import delete_qr_controller
 from controllers.create_order_controller import create_order_controller
 from controllers.get_orders_controller import get_orders_controller
-from controllers.create_user_controller import create_user_controller
+from controllers.register_user_controller import register_user_controller
 from controllers.login_user_controller import login_user_controller
+from controllers.create_category_controller import create_category_controller
+from controllers.delete_category_controller import delete_category_controller
+from controllers.create_menu_category_controller import create_menu_category_controller
+from controllers.delete_menu_category_controller import delete_menu_category_controller
 
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/auths/*": {"origins": "http://localhost:5173"}})
 socketio = SocketIO(app, cors_allowed_origins=['http://localhost:5173'])
 
 @app.post('/auths/users/login')
 def login_user():
     return login_user_controller(request.get_json())
 
-@app.post('/users')
-def create_user():
-    return create_user_controller(request.get_json())
+@app.post('/auths/users/register')
+def register_user():
+    return register_user_controller(request.get_json())
 
 @app.get('/orders')
 def get_orders():
@@ -61,10 +65,26 @@ def delete_qr(qr_id: str):
 def get_menu():
     return get_menus_controller(request.args.get('keyword', type=str))
 
+@app.post('/categories')
+def create_category():
+    return create_category_controller(request.get_json())
+
+@app.delete('/categories/<category_id>')
+def delete_category(category_id: str):
+    return delete_category_controller(category_id)
+
+@app.post('/menu-categories')
+def create_menu_category():
+    return create_menu_category_controller(request.get_json())
+
+@app.delete('/menu-categories')
+def delete_menu_category():
+    return delete_menu_category_controller(request.get_json())
+
 @socketio.on('menu_recommendation')
 def menu_recommendation(text, user_id):
     recommendation = get_menu_recommendation_controller(text, user_id)
     emit('menu_recommendation_response', recommendation)
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, port=8080, host='0.0.0.0')
+    socketio.run(app, debug=True, port=8000, host='0.0.0.0')
