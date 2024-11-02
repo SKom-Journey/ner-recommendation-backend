@@ -14,7 +14,7 @@ def chats_by_user_id(user_id: str):
         chat_ids = []
         menus = []
         for chat_id in chat["items"]:
-            chat_ids.append(ObjectId(chat_id))
+            chat_ids.append(chat_id)
 
         for menu in menus_by_ids(chat_ids):
             menus.append(menu)

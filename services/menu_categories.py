@@ -29,3 +29,16 @@ def get_menu_category(category_id: str, menu_id: str):
         id = str(menu_category['_id']),
         created_at = menu_category['created_at'].isoformat(),
     ).model_dump()
+
+def get_menu_category_by_category_id(category_id: str):
+    result = []
+    for menu_category in db.get_collection(tb_name).find({"category_id": ObjectId(category_id)}):
+        result.append(
+            MenuCategory(
+                menu_id = str(menu_category['menu_id']),
+                category_id = str(menu_category['category_id']),
+                id = str(menu_category['_id']),
+                created_at = menu_category['created_at'].isoformat(),
+            ).model_dump()
+        )
+    return result

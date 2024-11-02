@@ -24,6 +24,18 @@ def get_category_by_name(name):
         created_at = category['created_at'].isoformat(),
     ).model_dump()
 
+def get_categories():
+    result = []
+    for category in db.get_collection(tb_name).find():
+        result.append(
+            Category(
+                name = str(category['name']),
+                id = str(category['_id']),
+                created_at = category['created_at'].isoformat(),
+            ).model_dump()
+        )
+    return result
+
 def delete_category(id: str):
     delete = db.get_collection(tb_name).delete_one({"_id": ObjectId(id)})
     return delete.deleted_count

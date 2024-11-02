@@ -61,9 +61,34 @@ def menu(id: str):
         img=data['img']
     ).model_dump()
 
-def menus_by_ids(ids: list[ObjectId]):
+def menus_by_ids(ids: list[str]):
     result = []
-    for menu in db.get_collection(tb_name).find({"_id": {"$in": ids}}):
+    filter_ids = []
+
+    for menu_id in ids:
+        filter_ids.append(ObjectId(menu_id))
+
+    for menu in db.get_collection(tb_name).find({"_id": {"$in": filter_ids}}):
+        result.append(
+            Menu(
+                id=str(menu['_id']),
+                title=menu['title'],
+                description=menu['description'],
+                price=menu['price'],
+                img=menu['img']
+            )
+            .model_dump()
+        )
+    return result
+
+def menus_by_not_in_ids(ids: list[str]):
+    result = []
+    filter_ids = []
+
+    for menu_id in ids:
+        filter_ids.append(ObjectId(menu_id))
+
+    for menu in db.get_collection(tb_name).find({"_id": {"$nin": filter_ids}}):
         result.append(
             Menu(
                 id=str(menu['_id']),
