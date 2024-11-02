@@ -22,7 +22,7 @@ from controllers.delete_menu_category_controller import delete_menu_category_con
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/auths/*": {"origins": "http://localhost:5173"}})
+CORS(app)
 socketio = SocketIO(app, cors_allowed_origins=['http://localhost:5173'])
 
 @app.post('/auths/users/login')
