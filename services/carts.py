@@ -5,8 +5,13 @@ from datetime import datetime
 
 tb_name = 'carts'
 
-def create_cart(user_id: str, menu_id: str, note: str):
+def create_cart(user_id: str, menu_id: str, note: str | None):
     checkCartExist = get_cart_by_user_id_and_menu_id(user_id, menu_id)
+    
+    data = {}
+
+    if note != None:
+        data['note'] = note
 
     if checkCartExist:
         db.get_collection(tb_name).update_one(
@@ -14,7 +19,7 @@ def create_cart(user_id: str, menu_id: str, note: str):
                 "_id": ObjectId(checkCartExist['id'])
             },
             {
-                "$set": {"note": note},
+                "$set": data,
                 "$inc": {"quantity": 1}
             }
         )
