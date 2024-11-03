@@ -21,12 +21,17 @@ from controllers.delete_menu_category_controller import delete_menu_category_con
 from controllers.create_cart_controller import create_cart_controller
 from controllers.delete_cart_controller import delete_cart_controller
 from controllers.get_user_carts_controller import get_user_carts_controller
+from controllers.update_cart_note_by_id_controller import update_cart_note_by_id_controller
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins=['http://localhost:5173'])
+
+@app.put('/carts/<cart_id>')
+def update_cart_note_by_id(cart_id: str):
+    return update_cart_note_by_id_controller(cart_id, request.get_json())
 
 @app.get('/carts/<user_id>')
 def get_cart(user_id: str):

@@ -95,3 +95,16 @@ def get_cart(id: str):
         id = str(cart['_id']),
         created_at = cart['created_at'].isoformat(),
     ).model_dump()
+
+def update_note_by_id(id: str, note: str):
+    db.get_collection(tb_name).update_one(
+        {
+            "_id": ObjectId(id)
+        }, 
+        {
+            "$set": {
+                "note": note
+            }
+        }
+    )
+    return get_cart(id)
