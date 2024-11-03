@@ -57,7 +57,7 @@ def get_carts_by_user_id(user_id: str):
                 quantity = int(cart['quantity']),
                 menu_id = str(cart['menu_id']),
                 user_id = str(cart['user_id']),
-                note = str(cart['_id']),
+                note = str(cart['note']),
                 id = str(cart['_id']),
                 created_at = cart['created_at'].isoformat(),
 

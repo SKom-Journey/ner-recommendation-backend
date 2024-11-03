@@ -20,6 +20,20 @@ def create_user(email: str, password: str, name: str, with_google: bool):
         created_at=user['created_at'].isoformat(),
     ).model_dump() 
 
+def user_by_id(id: str):
+    user = db.get_collection(tb_name).find_one({"_id": ObjectId(id)})
+    if user != None:
+        return User(
+            id=str(user['_id']),
+            email=user['email'],
+            password=user['password'],
+            name=user['name'],
+            with_google=user['with_google'],
+            created_at=user['created_at'].isoformat(),
+        ).model_dump() 
+    
+    return None
+
 def user_by_email(email: str):
     user = db.get_collection(tb_name).find_one({"email": email})
     if user != None:

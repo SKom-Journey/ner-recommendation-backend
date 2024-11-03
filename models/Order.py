@@ -12,6 +12,7 @@ class Order(BaseModel):
     id: str = Optional[str]
     items: List[Item]
     is_finished: bool
+    user_id: str
     user_name: str
     table_number: str
     created_at: str
