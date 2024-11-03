@@ -2,7 +2,7 @@ from utils.mongodb import db
 from models.Order import Order
 from bson import ObjectId
 from datetime import datetime
-from services.menus import menu
+from services.menus import menu_by_id
 
 tb_name = 'orders'
 
@@ -10,7 +10,7 @@ def create_order(items, table_number: int):
     menu_items = []
 
     for item in items:
-        get_menu = menu(item['id'])
+        get_menu = menu_by_id(item['id'])
         if get_menu:
             menu_items.append({
                 **item,

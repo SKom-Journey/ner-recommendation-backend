@@ -51,7 +51,7 @@ def find_by_entities(entities: dict):
         )
     return result
 
-def menu(id: str):
+def menu_by_id(id: str):
     data = db.get_collection(tb_name).find_one({"_id": ObjectId(id)})
     return Menu(
         id=str(data['_id']),

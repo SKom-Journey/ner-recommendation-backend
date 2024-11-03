@@ -2,6 +2,7 @@ from utils.mongodb import db
 from models.Cart import Cart
 from bson import ObjectId
 from datetime import datetime
+from services.menus import menu_by_id
 
 tb_name = 'carts'
 
@@ -50,6 +51,7 @@ def delete_cart(user_id: str, menu_id: str, note: str):
 def get_carts_by_user_id(user_id: str):
     result = []
     for cart in db.get_collection(tb_name).find({"user_id": ObjectId(user_id)}):
+        menu = menu_by_id(cart['menu_id'])
         result.append(
             Cart(
                 quantity = int(cart['quantity']),
@@ -58,6 +60,8 @@ def get_carts_by_user_id(user_id: str):
                 note = str(cart['_id']),
                 id = str(cart['_id']),
                 created_at = cart['created_at'].isoformat(),
+
+                menu = menu
             ).model_dump()
     )
     return result
