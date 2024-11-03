@@ -18,12 +18,27 @@ from controllers.create_category_controller import create_category_controller
 from controllers.delete_category_controller import delete_category_controller
 from controllers.create_menu_category_controller import create_menu_category_controller
 from controllers.delete_menu_category_controller import delete_menu_category_controller
+from controllers.create_cart_controller import create_cart_controller
+from controllers.delete_cart_controller import delete_cart_controller
+from controllers.get_user_carts_controller import get_user_carts_controller
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins=['http://localhost:5173'])
+
+@app.get('/carts/<user_id>')
+def get_cart(user_id: str):
+    return get_user_carts_controller(user_id)
+
+@app.delete('/carts')
+def delete_cart():
+    return delete_cart_controller(request.get_json())
+
+@app.post('/carts')
+def create_cart():
+    return create_cart_controller(request.get_json())
 
 @app.post('/auths/users/login')
 def login_user():
