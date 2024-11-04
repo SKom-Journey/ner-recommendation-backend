@@ -108,3 +108,12 @@ def update_note_by_id(id: str, note: str):
         }
     )
     return get_cart(id)
+
+def delete_cart_by_user_id_and_menu_id(user_id: str, menu_id: str):
+    delete = db.get_collection(tb_name).delete_one(
+        {
+            "user_id": ObjectId(user_id),
+            "menu_id": ObjectId(menu_id)
+        }
+    )
+    return delete.deleted_count
