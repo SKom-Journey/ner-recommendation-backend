@@ -2,7 +2,7 @@ from utils.mongodb import db
 from bson import ObjectId
 from models.QR import QR
 
-tb_name = 'qr'
+tb_name = 'qrs'
 
 def delete_qr(id: str):
     delete = db.get_collection(tb_name).delete_one({"_id": ObjectId(id)})

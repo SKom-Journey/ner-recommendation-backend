@@ -4,7 +4,7 @@ from models.User import User
 from datetime import datetime
 import bcrypt
 
-tb_name = 'user'
+tb_name = 'users'
 
 def create_user(email: str, password: str, name: str, with_google: bool):
     salt = bcrypt.gensalt()
