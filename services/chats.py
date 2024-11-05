@@ -2,20 +2,23 @@ from utils.mongodb import db
 from bson import ObjectId
 from models.Chat import Chat
 from datetime import datetime
+from pymongo import DESCENDING, ASCENDING
 from services.menus import menus_by_ids
 
 tb_name = 'chats'
 
-def chats_by_user_id(user_id: str):
+def chats_by_user_id(user_id: str, limit: int = 5, sort_date: int = 1):
     result = []
-    chats = db.get_collection(tb_name).find({"user_id": user_id})
+    sort_order = ASCENDING if sort_date == 1 else DESCENDING
+    chats = db.get_collection(tb_name).find({"user_id": user_id}).sort("created_at", sort_order).limit(limit)
 
     for chat in chats:
         chat_ids = []
         menus = []
+        
         for chat_id in chat["items"]:
             chat_ids.append(chat_id)
-
+        
         for menu in menus_by_ids(chat_ids):
             menus.append(menu)
         
