@@ -23,6 +23,7 @@ from controllers.delete_cart_controller import delete_cart_controller
 from controllers.get_user_carts_controller import get_user_carts_controller
 from controllers.update_cart_note_by_id_controller import update_cart_note_by_id_controller
 from controllers.login_admin_controller import login_admin_controller
+from controllers.finish_order_controller import finish_order_controller
 
 load_dotenv()
 
@@ -57,6 +58,10 @@ def register_user():
 @app.post('/auths/admins/login')
 def login_admin():
     return login_admin_controller(request.get_json())
+
+@app.put('/orders/<order_id>')
+def finish_order(order_id: str):
+    return finish_order_controller(order_id)
 
 @app.get('/orders')
 def get_orders():

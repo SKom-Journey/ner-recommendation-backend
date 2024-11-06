@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
+from models.Menu import Menu
 
 class Item(BaseModel):
     id: str
@@ -7,6 +8,7 @@ class Item(BaseModel):
     note: Optional[str] = Field(default="")
     total: int
     price: int
+    detail: Optional[Menu] = Field(default=None)
 
 class Order(BaseModel):
     id: str = Optional[str]
