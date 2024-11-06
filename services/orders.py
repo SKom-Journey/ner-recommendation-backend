@@ -19,14 +19,14 @@ def create_order(items, table_number: int, user_id: str):
                 "price": get_menu['price'] * item['total']
             })
 
-    order_id = db.get_collection(tb_name).insert_one({"user_id": ObjectId(user_id), "items": menu_items, "is_finished": False, "table_number": table_number, "created_at": datetime.now()}).inserted_id
-    order = db.get_collection(tb_name).find_one({"_id": ObjectId(order_id)})
     user = user_by_id(user_id)
+    order_id = db.get_collection(tb_name).insert_one({"user_name": user['name'], "user_id": ObjectId(user_id), "items": menu_items, "is_finished": False, "table_number": table_number, "created_at": datetime.now()}).inserted_id
+    order = db.get_collection(tb_name).find_one({"_id": ObjectId(order_id)})
     return Order(
         table_number = str(order['table_number']),
         items = order['items'],
         user_id = str(order['user_id']),
-        user_name = str(user['name']),
+        user_name = str(order['user_name']),
         is_finished = bool(order['is_finished']),
         id = str(order['_id']),
         created_at = order['created_at'].isoformat(),
@@ -34,11 +34,14 @@ def create_order(items, table_number: int, user_id: str):
 
 def orders():
     result = []
-    for order in db.get_collection(tb_name).find().sort("created_at", 1):
+    for order in db.get_collection(tb_name).find({"is_finished": False}).sort("created_at", 1):
         result.append(
             Order(
                 table_number = str(order['table_number']),
                 items = order['items'],
+                user_id = str(order['user_id']),
+                user_name = str(order['user_name']),
+                is_finished = bool(order['is_finished']),
                 id = str(order['_id']),
                 created_at = order['created_at'].isoformat(),
             )
