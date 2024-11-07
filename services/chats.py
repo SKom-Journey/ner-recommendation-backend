@@ -51,3 +51,10 @@ def create_chat(user_id: str, user_message: str, items: list[str]):
         created_at = chat["created_at"].isoformat()
     ).model_dump() 
  
+def delete_chats_by_user_id(user_id: str):
+    deleted_count = db.get_collection(tb_name).delete_many({
+        "user_id": user_id
+    }).deleted_count
+    
+    return deleted_count
+ 

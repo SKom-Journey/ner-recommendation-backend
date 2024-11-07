@@ -24,6 +24,7 @@ from controllers.get_user_carts_controller import get_user_carts_controller
 from controllers.update_cart_note_by_id_controller import update_cart_note_by_id_controller
 from controllers.login_admin_controller import login_admin_controller
 from controllers.finish_order_controller import finish_order_controller
+from controllers.delete_user_chats_controller import delete_user_chats_controller
 
 load_dotenv()
 
@@ -70,6 +71,10 @@ def get_orders():
 @app.post('/orders')
 def create_order():
     return create_order_controller(request.get_json())
+
+@app.delete('/chats/<user_id>')
+def delete_chats_by_user_id(user_id: str):
+    return delete_user_chats_controller(user_id)
 
 @app.get('/chats/<user_id>')
 def get_user_chats(user_id: str):
